@@ -74,3 +74,7 @@ sanity dataset import tv_shows_converted_readable_id.ndjson production
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+## Useful links
+YT video followed for initial tutorial
+https://youtu.be/Lydgf-Hvla4?si=ZBynr-oZJdlR2wuT
