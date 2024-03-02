@@ -36,13 +36,11 @@ export default {
         name: 'description',
         title: 'Description',
         type: 'text',
-        validation: (Rule: Rule) => Rule.required()
       },
       {
         name: 'wokeComment',
         title: 'Woke Comment',
         type: 'text',
-        validation: (Rule: Rule) => Rule.required()
       },
       {
         name: 'canIBinge',

@@ -41,6 +41,33 @@ npm run dev
 Then access the CMS at this url
 http://localhost:3333/structure
 
+## Running the CSV to NDJSON Converter
+
+To use this script to convert a CSV file to NDJSON format, follow these steps:
+
+1. Make sure you have [Node.js](https://nodejs.org/) installed on your system.
+
+2. Install the required npm package by running:
+
+   ```bash
+   npm install csvtojson
+
+3. In the /theattcms folder create a config.json with the csv in and output file name like this
+```{
+    "csvFilePath": "./path/to/your/input.csv",
+    "ndjsonFilePath": "./path/to/your/output.ndjson"
+}```
+
+4. Run the script with the following command
+```
+node csvToNdjsonConverter.js
+```
+This will generate a lowercase version of the title column as the id in the output for each row
+
+5. To upload this script run this command with your output file attached
+
+sanity dataset import tv_shows_converted_readable_id.ndjson production
+
 
 ## Deploy on Vercel
 
