@@ -73,7 +73,8 @@ This will generate a lowercase version of the title column as the id in the outp
 
 ## MVP Table documentation and YT Vid links
 <https://ui.shadcn.com/docs/components/data-table>
-https://youtu.be/j6-ImdZW7aM?si=M_6lVUvyt-EyFGZm
+
+<https://youtu.be/j6-ImdZW7aM?si=M_6lVUvyt-EyFGZm>
 
 ## Deploy on Vercel
 

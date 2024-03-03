@@ -8,6 +8,14 @@ export default function Navbar() {
                 TheAtt<span className="text-primary">Reviews</span>
             </Link>
 
+            <Link href="/ratings" className="font-bold text-base">
+                Ratings
+            </Link>
+
+            <Link href="/reviews" className="font-bold text-base">
+                Reviews
+            </Link>
+
             <ModeToggle />
         </nav>
     );
