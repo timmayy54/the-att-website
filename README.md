@@ -53,21 +53,27 @@ To use this script to convert a CSV file to NDJSON format, follow these steps:
    npm install csvtojson
 
 3. In the /theattcms folder create a config.json with the csv in and output file name like this
-```{
+```
+{
     "csvFilePath": "./path/to/your/input.csv",
     "ndjsonFilePath": "./path/to/your/output.ndjson"
-}```
+}
 
+```
 4. Run the script with the following command
-```
-node csvToNdjsonConverter.js
-```
+
+`node csvToNdjsonConverter.js`
+
 This will generate a lowercase version of the title column as the id in the output for each row
 
 5. To upload this script run this command with your output file attached
 
-sanity dataset import tv_shows_converted_readable_id.ndjson production
+`sanity dataset import tv_shows_converted_readable_id.ndjson production`
 
+
+## MVP Table documentation and YT Vid links
+<https://ui.shadcn.com/docs/components/data-table>
+https://youtu.be/j6-ImdZW7aM?si=M_6lVUvyt-EyFGZm
 
 ## Deploy on Vercel
 
