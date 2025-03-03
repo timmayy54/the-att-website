@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ModeToggle } from "./ModeToggle";
+import UserProfile from "./UserProfile";
 
 export default function Navbar() {
     return (
@@ -8,15 +9,31 @@ export default function Navbar() {
                 TheAtt<span className="text-primary">Reviews</span>
             </Link>
 
-            <Link href="/ratings" className="font-bold text-base">
-                Ratings
-            </Link>
+            <div className="flex items-center space-x-4">
+                <Link href="/ratings" className="font-bold text-base hover:text-primary transition-colors">
+                    Ratings
+                </Link>
 
-            <Link href="/reviews" className="font-bold text-base">
-                Reviews
-            </Link>
+                <Link href="/reviews" className="font-bold text-base hover:text-primary transition-colors">
+                    Reviews
+                </Link>
+                
+                <UserProfile />
 
-            <ModeToggle />
+                <ModeToggle />
+            </div>
+            
+            <div className="absolute bottom-0 left-0 right-0 flex justify-center text-xs space-x-4 pb-1 text-muted-foreground">
+                <Link href="/privacy-policy" className="hover:text-primary transition-colors">
+                    Privacy Policy
+                </Link>
+                <Link href="/terms-of-service" className="hover:text-primary transition-colors">
+                    Terms of Service
+                </Link>
+                <Link href="/cookie-policy" className="hover:text-primary transition-colors">
+                    Cookie Policy
+                </Link>
+            </div>
         </nav>
     );
 }
