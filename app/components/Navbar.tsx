@@ -22,18 +22,6 @@ export default function Navbar() {
 
                 <ModeToggle />
             </div>
-            
-            <div className="absolute bottom-0 left-0 right-0 flex justify-center text-xs space-x-4 pb-1 text-muted-foreground">
-                <Link href="/privacy-policy" className="hover:text-primary transition-colors">
-                    Privacy Policy
-                </Link>
-                <Link href="/terms-of-service" className="hover:text-primary transition-colors">
-                    Terms of Service
-                </Link>
-                <Link href="/cookie-policy" className="hover:text-primary transition-colors">
-                    Cookie Policy
-                </Link>
-            </div>
         </nav>
     );
 }

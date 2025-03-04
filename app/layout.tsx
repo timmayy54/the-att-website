@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "./components/theme-provider";
 import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 import { Analytics } from "@vercel/analytics/react";
 import { Providers } from "./providers";
 import Script from "next/script";
@@ -48,8 +49,15 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <Navbar />
-            <main className="max-w-2xl mx-auto px-4">{children}</main>
+            <div className="flex flex-col min-h-screen">
+              <header className="sticky top-0 z-50 w-full bg-background border-b border-border">
+                <Navbar />
+              </header>
+              <main className="max-w-2xl mx-auto px-4 py-4 flex-grow">{children}</main>
+              <footer className="sticky bottom-0 z-40 w-full bg-background border-t border-border shadow-md">
+                <Footer />
+              </footer>
+            </div>
           </ThemeProvider>
           <Analytics />
         </Providers>
