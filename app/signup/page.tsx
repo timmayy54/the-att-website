@@ -31,30 +31,11 @@ export default function SignupPage() {
     setIsLoading(true);
     
     try {
-      // In a real application, you would send this data to your API
-      // For now, we'll simulate a successful signup
-      const response = await fetch("/api/auth/signup", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name,
-          email,
-          password,
-        }),
-      });
-      
-      if (!response.ok) {
-        const data = await response.json();
-        throw new Error(data.message || "Something went wrong");
-      }
-      
-      // Redirect to login page on successful signup
-      router.push("/login?signup=success");
+      // Simulate a 500 error response as requested
+      throw new Error("Signup service unavailable");
     } catch (error: any) {
       console.error("Signup error:", error);
-      setError(error.message || "An error occurred during signup");
+      setError("Signup service unavailable (500 error)");
     } finally {
       setIsLoading(false);
     }

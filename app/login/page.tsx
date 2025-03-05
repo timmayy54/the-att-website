@@ -1,8 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { signIn, useSession } from "next-auth/react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 export default function LoginPage() {
@@ -11,46 +10,33 @@ export default function LoginPage() {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const { status } = useSession();
 
-  // Check for error parameter in URL
-  useEffect(() => {
-    const errorParam = searchParams?.get("error");
-    if (errorParam) {
-      console.error("Auth error from URL:", errorParam);
-      setError("Authentication failed. Please try again.");
-    }
-  }, [searchParams]);
-
-  // Redirect if already authenticated
-  useEffect(() => {
-    if (status === "authenticated") {
-      router.push("/");
-    }
-  }, [status, router]);
-
-  const handleEmailSignIn = async (e: React.FormEvent) => {
+  const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     setError("");
 
     try {
-      const result = await signIn("credentials", {
-        redirect: false,
-        email,
-        password,
-      });
-
-      if (result?.error) {
-        setError("Invalid credentials");
-      } else if (result?.ok) {
-        router.push("/");
-      }
+      // Simulate an error response as requested
+      throw new Error("Authentication service unavailable");
     } catch (error) {
       console.error("Login error:", error);
-      setError("An error occurred during login");
+      setError("Authentication service unavailable (500 error)");
     } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleProviderSignIn = (provider: string) => {
+    setIsLoading(true);
+    setError("");
+    
+    try {
+      // Simulate an error response as requested
+      throw new Error(`${provider} authentication service unavailable`);
+    } catch (error) {
+      console.error(`${provider} login error:`, error);
+      setError(`${provider} authentication service unavailable (500 error)`);
       setIsLoading(false);
     }
   };
@@ -61,14 +47,14 @@ export default function LoginPage() {
 
       <div className="w-full max-w-md space-y-6">
         {error && (
-          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative dark:bg-red-900/20 dark:border-red-800 dark:text-red-400" role="alert">
             <span className="block sm:inline">{error}</span>
           </div>
         )}
 
         <div className="space-y-4">
           <button
-            onClick={() => signIn("google", { callbackUrl: "/" })}
+            onClick={() => handleProviderSignIn("Google")}
             disabled={isLoading}
             className="flex items-center justify-center w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-md shadow-sm text-sm font-medium text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50"
           >
@@ -94,7 +80,7 @@ export default function LoginPage() {
           </button>
 
           <button
-            onClick={() => signIn("github", { callbackUrl: "/" })}
+            onClick={() => handleProviderSignIn("GitHub")}
             disabled={isLoading}
             className="flex items-center justify-center w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-md shadow-sm text-sm font-medium text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50"
           >
@@ -118,7 +104,7 @@ export default function LoginPage() {
           </div>
         </div>
 
-        <form onSubmit={handleEmailSignIn} className="space-y-4">
+        <form onSubmit={handleSignIn} className="space-y-4">
           <div>
             <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
               Email address
