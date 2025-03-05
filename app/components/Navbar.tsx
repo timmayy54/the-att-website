@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { ModeToggle } from "./ModeToggle";
 import UserProfile from "./UserProfile";
 
@@ -44,10 +45,22 @@ export default function Navbar() {
 
     return (
         <nav className="w-full relative flex items-center justify-between max-w-2xl mx-auto px-4 py-5">
-            <Link href="/" className="font-bold text-3xl">
-                TheAtt<span className="text-primary">Reviews</span>
+            <Link href="/" className="flex items-center space-x-2">
+                <div className="relative w-10 h-10 overflow-hidden rounded-full border-2 border-primary shadow-md">
+                    <Image 
+                        src="/images/TheAttLogo.jpg" 
+                        alt="TheAttReviews Logo" 
+                        width={40} 
+                        height={40}
+                        className="object-cover transition-transform hover:scale-110"
+                        priority
+                    />
+                </div>
+                <span className="font-bold text-3xl">
+                    TheAtt<span className="text-primary">Reviews</span>
+                </span>
             </Link>
-
+            
             <div className="flex items-center space-x-4">
                 <Link href="/ratings" className="font-bold text-base hover:text-primary transition-colors">
                     Ratings
