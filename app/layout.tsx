@@ -10,9 +10,6 @@ import Script from "next/script";
 
 const inter = Inter({ subsets: ["latin"] });
 
-// Get Google Analytics ID from environment variable
-const GA_ID = process.env.NEXT_PUBLIC_GA_ID || "";
-
 export const metadata: Metadata = {
   title: "TheAttReviews - TV Show Reviews and Ratings",
   description: "Discover honest reviews and ratings for your favorite TV shows",
@@ -26,22 +23,19 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <head>
-        {/* Google Analytics */}
-        <Script
-          src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
-          strategy="afterInteractive"
-        />
+      <head />
+      <body className={inter.className}>
+        {/* Google tag (gtag.js) */}
+        <Script src="https://www.googletagmanager.com/gtag/js?id=G-Y738Y62YG7" strategy="afterInteractive" />
         <Script id="google-analytics" strategy="afterInteractive">
           {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-            gtag('config', '${GA_ID}');
+            gtag('config', 'G-Y738Y62YG7');
           `}
         </Script>
-      </head>
-      <body className={inter.className}>
+        
         <Providers>
           <ThemeProvider
             attribute="class"
