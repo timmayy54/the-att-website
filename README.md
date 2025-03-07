@@ -98,6 +98,20 @@ The script uses the hardcoded production URL `https://www.theattreviews.com` to 
 
 The script is written in CommonJS syntax for compatibility with Vercel's Node.js environment. It uses native Node.js modules (fs and path) to find and process files, avoiding dependencies that might cause issues during deployment.
 
+### Additional Sitemap Scripts
+
+The project includes additional scripts to help manage the sitemap:
+
+1. **Verify Sitemap**: Checks if the generated sitemap contains localhost URLs and verifies that it uses the production domain.
+   ```bash
+   npm run verify-sitemap
+   ```
+
+2. **Fix Sitemap**: Manually fixes the sitemap and robots.txt files by replacing any localhost URLs with the production domain. This can be run after deployment if needed.
+   ```bash
+   npm run fix-sitemap
+   ```
+
 To manually run the sitemap generation script:
 
 ```bash
