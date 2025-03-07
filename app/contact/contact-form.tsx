@@ -51,11 +51,13 @@ export default function ContactForm() {
       setFormData({ name: "", email: "", message: "" });
     } catch (error) {
       console.error("Error submitting form:", error);
+      
+      // Show detailed error message
       setSubmitStatus({
         success: false,
         message: error instanceof Error 
           ? error.message 
-          : "There was an error sending your message. Please try again.",
+          : "There was an error sending your message. Please try again or contact us directly at theattreviews@gmail.com",
       });
     } finally {
       setIsSubmitting(false);
@@ -77,6 +79,7 @@ export default function ContactForm() {
           onChange={handleChange}
           className="w-full px-3 py-2 border border-input rounded-md bg-background"
           placeholder="Your name"
+          disabled={isSubmitting}
         />
       </div>
 
@@ -93,6 +96,7 @@ export default function ContactForm() {
           onChange={handleChange}
           className="w-full px-3 py-2 border border-input rounded-md bg-background"
           placeholder="your.email@example.com"
+          disabled={isSubmitting}
         />
       </div>
 
@@ -109,6 +113,7 @@ export default function ContactForm() {
           rows={5}
           className="w-full px-3 py-2 border border-input rounded-md bg-background resize-none"
           placeholder="Your message..."
+          disabled={isSubmitting}
         />
       </div>
 
@@ -121,6 +126,17 @@ export default function ContactForm() {
           }`}
         >
           {submitStatus.message}
+          {!submitStatus.success && (
+            <p className="mt-2 text-sm">
+              If the problem persists, please email us directly at{" "}
+              <a
+                href="mailto:theattreviews@gmail.com"
+                className="underline hover:no-underline"
+              >
+                theattreviews@gmail.com
+              </a>
+            </p>
+          )}
         </div>
       )}
 

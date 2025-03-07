@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { sendEmail } from "@/app/lib/email";
 
 export async function POST(request: Request) {
   try {
@@ -13,17 +14,31 @@ export async function POST(request: Request) {
       );
     }
 
-    // In a real implementation, you would send an email here
-    // For example, using a service like SendGrid, Mailgun, or AWS SES
-    
-    // For now, we'll just log the data
-    console.log("Contact form submission:", {
-      name,
-      email,
-      message,
-      recipient: "theattreviews@gmail.com",
-      timestamp: new Date().toISOString(),
+    // Format the email content
+    const htmlContent = `
+      <h1>New Contact Form Submission</h1>
+      <p><strong>Name:</strong> ${name}</p>
+      <p><strong>Email:</strong> ${email}</p>
+      <p><strong>Message:</strong></p>
+      <p>${message.replace(/\n/g, '<br>')}</p>
+      <hr>
+      <p>This email was sent from the contact form on TheAttReviews website.</p>
+    `;
+
+    // Send the email
+    const emailResult = await sendEmail({
+      to: "theattreviews@gmail.com",
+      subject: `Contact Form: Message from ${name}`,
+      html: htmlContent,
     });
+
+    if (!emailResult.success) {
+      console.error("Failed to send email:", emailResult.message);
+      return NextResponse.json(
+        { error: "Failed to send email. Please try again later." },
+        { status: 500 }
+      );
+    }
 
     // Return a success response
     return NextResponse.json(
