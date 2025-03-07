@@ -86,9 +86,6 @@ export default function Footer() {
             <Link href="/contact" className="hover:text-primary transition-colors">
               Contact
             </Link>
-            <Link href="/sitemap.xml" className="hover:text-primary transition-colors">
-              Sitemap
-            </Link>
           </div>
         </div>
       </div>
