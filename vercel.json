@@ -1,0 +1,8 @@
+{
+  "version": 2,
+  "buildCommand": "bash ./vercel-build.sh",
+  "rewrites": [
+    { "source": "/sitemap.xml", "destination": "/api/sitemap" },
+    { "source": "/robots.txt", "destination": "/api/robots" }
+  ]
+} 

@@ -1,3 +1,5 @@
+// This file is disabled to prevent conflicts with our custom sitemap generation
+// Original content:
 /** @type {import('next-sitemap').IConfig} */
 module.exports = {
   siteUrl: process.env.SITE_URL || 'https://www.theattreviews.com',

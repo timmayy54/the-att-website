@@ -2,16 +2,22 @@ const fs = require('fs');
 const path = require('path');
 
 /**
- * This script is designed to be run manually after deployment
- * to fix the sitemap.xml and robots.txt files if they contain localhost URLs.
+ * This script is designed to be the FINAL step in the build process
+ * to ensure the sitemap.xml and robots.txt files have the correct production URLs.
+ * It will overwrite any existing files with the correct URLs.
  * 
  * Usage: node scripts/fix-sitemap.js
  */
 function fixSitemap() {
-  console.log('Starting sitemap and robots.txt fix process...');
+  console.log('FINAL STEP: Ensuring sitemap and robots.txt have correct production URLs...');
   
   const PROD_URL = 'https://www.theattreviews.com';
-  const LOCALHOST_PATTERN = /http:\/\/localhost:3000/g;
+  const LOCALHOST_PATTERNS = [
+    /http:\/\/localhost:3000/g,
+    /http:\/\/localhost:\d+/g,
+    /https?:\/\/127\.0\.0\.1:\d+/g,
+    /https?:\/\/0\.0\.0\.0:\d+/g
+  ];
   
   try {
     // Fix sitemap.xml
@@ -20,13 +26,23 @@ function fixSitemap() {
       console.log('Processing sitemap.xml...');
       let sitemapContent = fs.readFileSync(sitemapPath, 'utf8');
       
-      if (sitemapContent.includes('localhost')) {
+      let containsLocalhost = false;
+      for (const pattern of LOCALHOST_PATTERNS) {
+        if (pattern.test(sitemapContent)) {
+          containsLocalhost = true;
+          sitemapContent = sitemapContent.replace(pattern, PROD_URL);
+        }
+      }
+      
+      if (containsLocalhost) {
         console.log('Found localhost URLs in sitemap, replacing with production URL...');
-        const fixedContent = sitemapContent.replace(LOCALHOST_PATTERN, PROD_URL);
-        fs.writeFileSync(sitemapPath, fixedContent);
+        fs.writeFileSync(sitemapPath, sitemapContent);
         console.log('Sitemap fixed successfully!');
+      } else if (!sitemapContent.includes(PROD_URL)) {
+        console.log('Sitemap does not contain production URL, generating a new one...');
+        generateBasicSitemap();
       } else {
-        console.log('No localhost URLs found in sitemap.');
+        console.log('Sitemap already contains correct production URLs.');
       }
     } else {
       console.log('Sitemap file not found, generating a new one...');
@@ -39,20 +55,33 @@ function fixSitemap() {
       console.log('Processing robots.txt...');
       let robotsContent = fs.readFileSync(robotsPath, 'utf8');
       
-      if (robotsContent.includes('localhost')) {
+      let containsLocalhost = false;
+      for (const pattern of LOCALHOST_PATTERNS) {
+        if (pattern.test(robotsContent)) {
+          containsLocalhost = true;
+          robotsContent = robotsContent.replace(pattern, PROD_URL);
+        }
+      }
+      
+      if (containsLocalhost) {
         console.log('Found localhost URLs in robots.txt, replacing with production URL...');
-        const fixedRobots = robotsContent.replace(LOCALHOST_PATTERN, PROD_URL);
-        fs.writeFileSync(robotsPath, fixedRobots);
+        fs.writeFileSync(robotsPath, robotsContent);
         console.log('robots.txt fixed successfully!');
+      } else if (!robotsContent.includes(PROD_URL)) {
+        console.log('robots.txt does not contain production URL, generating a new one...');
+        generateBasicRobots();
       } else {
-        console.log('No localhost URLs found in robots.txt.');
+        console.log('robots.txt already contains correct production URLs.');
       }
     } else {
       console.log('robots.txt file not found, generating a new one...');
       generateBasicRobots();
     }
     
-    console.log('Fix process completed!');
+    // Verify the final files
+    verifyFiles();
+    
+    console.log('FINAL STEP COMPLETED: Sitemap and robots.txt are now using the correct production URLs!');
   } catch (error) {
     console.error('Error fixing sitemap and robots.txt:', error);
   }
@@ -130,6 +159,63 @@ Sitemap: ${PROD_URL}/sitemap.xml`;
   
   fs.writeFileSync(path.join(publicDir, 'robots.txt'), robots);
   console.log('Basic robots.txt generated successfully!');
+}
+
+/**
+ * Verify that the files contain the correct URLs
+ */
+function verifyFiles() {
+  const PROD_URL = 'https://www.theattreviews.com';
+  const LOCALHOST_PATTERNS = [
+    /http:\/\/localhost:3000/,
+    /http:\/\/localhost:\d+/,
+    /https?:\/\/127\.0\.0\.1:\d+/,
+    /https?:\/\/0\.0\.0\.0:\d+/
+  ];
+  
+  // Verify sitemap.xml
+  const sitemapPath = path.join(process.cwd(), 'public', 'sitemap.xml');
+  if (fs.existsSync(sitemapPath)) {
+    const sitemapContent = fs.readFileSync(sitemapPath, 'utf8');
+    
+    let containsLocalhost = false;
+    for (const pattern of LOCALHOST_PATTERNS) {
+      if (pattern.test(sitemapContent)) {
+        containsLocalhost = true;
+        break;
+      }
+    }
+    
+    if (containsLocalhost) {
+      console.error('WARNING: Sitemap still contains localhost URLs after fixes!');
+    } else if (!sitemapContent.includes(PROD_URL)) {
+      console.error('WARNING: Sitemap does not contain the production URL!');
+    } else {
+      console.log('VERIFICATION PASSED: Sitemap contains production URL and no localhost references.');
+    }
+  }
+  
+  // Verify robots.txt
+  const robotsPath = path.join(process.cwd(), 'public', 'robots.txt');
+  if (fs.existsSync(robotsPath)) {
+    const robotsContent = fs.readFileSync(robotsPath, 'utf8');
+    
+    let containsLocalhost = false;
+    for (const pattern of LOCALHOST_PATTERNS) {
+      if (pattern.test(robotsContent)) {
+        containsLocalhost = true;
+        break;
+      }
+    }
+    
+    if (containsLocalhost) {
+      console.error('WARNING: robots.txt still contains localhost URLs after fixes!');
+    } else if (!robotsContent.includes(PROD_URL)) {
+      console.error('WARNING: robots.txt does not contain the production URL!');
+    } else {
+      console.log('VERIFICATION PASSED: robots.txt contains production URL and no localhost references.');
+    }
+  }
 }
 
 // Run the fix process
