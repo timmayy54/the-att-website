@@ -1,31 +1,49 @@
-import { globby } from 'globby';
-import fs from 'fs';
-import path from 'path';
+const fs = require('fs');
+const path = require('path');
 
 async function generateSitemap() {
   console.log('Generating sitemap...');
   
   const SITE_URL = 'https://www.theattreviews.com';
   
-  // Get all routes from the app directory
-  const pages = await globby([
-    'app/**/page.tsx',
-    'app/**/page.jsx',
-    'app/**/page.js',
-    '!app/api/**/*',
-    '!app/**/not-found.*',
-    '!app/**/_*.*',
-  ]);
-
+  // Function to find all files recursively
+  function findFiles(dir, pattern, excludePatterns = []) {
+    let results = [];
+    const files = fs.readdirSync(dir, { withFileTypes: true });
+    
+    for (const file of files) {
+      const fullPath = path.join(dir, file.name);
+      
+      // Skip excluded patterns
+      if (excludePatterns.some(pattern => fullPath.includes(pattern))) {
+        continue;
+      }
+      
+      if (file.isDirectory()) {
+        results = results.concat(findFiles(fullPath, pattern, excludePatterns));
+      } else if (file.name.match(pattern)) {
+        results.push(fullPath);
+      }
+    }
+    
+    return results;
+  }
+  
+  // Find all page files
+  const pages = findFiles('app', /page\.(tsx|jsx|js)$/, ['/api/', '/_', '/not-found.']);
+  
   console.log(`Found ${pages.length} pages to process`);
   
   // Process routes
   const routes = pages
     .map((page) => {
+      // Convert Windows path separators to URL format
+      const normalizedPath = page.replace(/\\/g, '/');
+      
       // Remove app/ and file extension
-      const route = page
+      const route = normalizedPath
         .replace('app', '')
-        .replace(/\.(tsx|ts|jsx|js)$/, '')
+        .replace(/\.(tsx|jsx|js)$/, '')
         .replace(/\/page$/, '');
       
       // Handle dynamic routes - we'll exclude them for now
