@@ -82,42 +82,6 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
 
-## Sitemap Generation
-
-This project uses a custom sitemap generation script to ensure that the production URLs are correctly used in the sitemap.xml and robots.txt files. The script is located at `scripts/generate-sitemap.js` and is automatically run after the build process.
-
-The sitemap generation process:
-
-1. Scans the `app` directory for all page files
-2. Processes the routes to create a list of URLs
-3. Adds manually specified dynamic routes
-4. Generates a sitemap.xml file with the production domain
-5. Generates a robots.txt file with the correct sitemap URL
-
-The script uses the hardcoded production URL `https://www.theattreviews.com` to ensure that the sitemap always contains the correct domain, regardless of the build environment.
-
-The script is written in CommonJS syntax for compatibility with Vercel's Node.js environment. It uses native Node.js modules (fs and path) to find and process files, avoiding dependencies that might cause issues during deployment.
-
-### Additional Sitemap Scripts
-
-The project includes additional scripts to help manage the sitemap:
-
-1. **Verify Sitemap**: Checks if the generated sitemap contains localhost URLs and verifies that it uses the production domain.
-   ```bash
-   npm run verify-sitemap
-   ```
-
-2. **Fix Sitemap**: Manually fixes the sitemap and robots.txt files by replacing any localhost URLs with the production domain. This can be run after deployment if needed.
-   ```bash
-   npm run fix-sitemap
-   ```
-
-To manually run the sitemap generation script:
-
-```bash
-node scripts/generate-sitemap.js
-```
-
 ## Useful links
 YT video followed for initial tutorial
 https://youtu.be/Lydgf-Hvla4?si=ZBynr-oZJdlR2wuT
