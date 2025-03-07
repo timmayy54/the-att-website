@@ -96,10 +96,12 @@ The sitemap generation process:
 
 The script uses the hardcoded production URL `https://www.theattreviews.com` to ensure that the sitemap always contains the correct domain, regardless of the build environment.
 
+The script is written in CommonJS syntax for compatibility with Vercel's Node.js environment. It uses native Node.js modules (fs and path) to find and process files, avoiding dependencies that might cause issues during deployment.
+
 To manually run the sitemap generation script:
 
 ```bash
-node --experimental-modules scripts/generate-sitemap.js
+node scripts/generate-sitemap.js
 ```
 
 ## Useful links
