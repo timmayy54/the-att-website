@@ -85,7 +85,7 @@ export default function TermsOfService() {
 
       <h2>Contact Us</h2>
       <p>
-        If you have any questions about these Terms, please contact us at: [Your Contact Email]
+        If you have any questions about these Terms, please contact us at: TheAttReviews@gmail.com
       </p>
     </div>
   );

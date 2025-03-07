@@ -70,7 +70,7 @@ export default function Footer() {
           </div>
           
           {/* Policy Links - Made Smaller */}
-          <div className="flex space-x-4 text-xs">
+          <div className="flex flex-wrap justify-center gap-x-4 gap-y-2 text-xs">
             <Link href="/privacy-policy" className="hover:text-primary transition-colors">
               Privacy Policy
             </Link>
@@ -79,6 +79,12 @@ export default function Footer() {
             </Link>
             <Link href="/cookie-policy" className="hover:text-primary transition-colors">
               Cookie Policy
+            </Link>
+            <Link href="/about" className="hover:text-primary transition-colors">
+              About Us
+            </Link>
+            <Link href="/contact" className="hover:text-primary transition-colors">
+              Contact
             </Link>
           </div>
         </div>
