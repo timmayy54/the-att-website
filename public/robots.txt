@@ -6,4 +6,5 @@ Allow: /
 Host: https://www.theattreviews.com
 
 # Sitemaps
-Sitemap: https://www.theattreviews.com/sitemap.xml
+# Sitemap: https://www.theattreviews.com/sitemap.xml
+Sitemap: https://www.theattreviews.com/sitemap-index.xml
